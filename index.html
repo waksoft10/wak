@@ -1666,41 +1666,38 @@ img { max-width: 100%; height: auto; }
 
     
 <script>
-// ==== Fix for mobile touch navigation on social icons and other external links ====
+// ===== Strong mobile link navigation fix =====
 document.addEventListener('DOMContentLoaded', function () {
   const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints && navigator.maxTouchPoints > 0);
-  
-  // Select all <a> elements that have href and open in new tab (or external) and are not just '#'
+  if (!isTouch) return;
+
+  // Select all anchor tags with valid external href
   const anchors = document.querySelectorAll('a[href]:not([href="#"])');
   
   anchors.forEach(a => {
     const href = a.getAttribute('href');
-    if (!href || href.trim() === '' || href.trim() === '#' ) return;
-    // Skip anchors with only hash or JS handlers unless they also have valid external href
+    if (!href || href.trim() === '' || href.trim() === '#') return;
+
+    // Skip anchors that intentionally open modals or JS-only handlers
     if (a.getAttribute('onclick') && !/^https?:/i.test(href)) return;
-    
-    // Ensure external links open safely
-    if (a.target === '_blank' || /^https?:/i.test(href)) {
+
+    // Force safe external link behavior
+    if (/^https?:/i.test(href)) {
       a.setAttribute('rel', 'noopener noreferrer');
     }
-    
-    if (isTouch) {
-      a.addEventListener('touchend', function (e) {
-        // Avoid overriding buttons that open modals (like location)
-        if (this.getAttribute('onclick') && !/^https?:/i.test(this.href)) return;
-        e.preventDefault();
-        e.stopPropagation();
-        if (this.href) {
-          window.open(this.href, this.target || '_self', this.target === '_blank' ? 'noopener,noreferrer' : '');
-        }
-      }, { passive: false });
-      
-      a.addEventListener('click', function (e) {
-        // Prevent double navigation on mobile after touchend
-        if (this.getAttribute('onclick') && !/^https?:/i.test(this.href)) return;
-        e.preventDefault();
-      }, { capture: true });
-    }
+
+    // Remove other click/touch handlers that might block navigation
+    a.addEventListener('touchend', function (e) {
+      e.stopImmediatePropagation();
+      e.preventDefault();
+      window.open(this.href, this.target || '_self', this.target === '_blank' ? 'noopener,noreferrer' : '');
+    }, { passive: false });
+
+    a.addEventListener('click', function (e) {
+      e.stopImmediatePropagation();
+      e.preventDefault();
+      window.open(this.href, this.target || '_self', this.target === '_blank' ? 'noopener,noreferrer' : '');
+    }, true);
   });
 });
 </script>
