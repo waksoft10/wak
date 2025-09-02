@@ -1666,39 +1666,64 @@ img { max-width: 100%; height: auto; }
 
     
 <script>
-// ===== Strong mobile link navigation fix =====
 document.addEventListener('DOMContentLoaded', function () {
-  const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints && navigator.maxTouchPoints > 0);
-  if (!isTouch) return;
+  function openAppOrFallback(appUrl, webUrl) {
+    const now = Date.now();
+    let timeout;
+    // Create temporary iframe to try to open the app silently
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = appUrl;
+    document.body.appendChild(iframe);
 
-  // Select all anchor tags with valid external href
-  const anchors = document.querySelectorAll('a[href]:not([href="#"])');
-  
-  anchors.forEach(a => {
-    const href = a.getAttribute('href');
-    if (!href || href.trim() === '' || href.trim() === '#') return;
+    // After 1500ms, if no app opened, fallback to web
+    timeout = setTimeout(function () {
+      window.location.href = webUrl;
+    }, 1500);
 
-    // Skip anchors that intentionally open modals or JS-only handlers
-    if (a.getAttribute('onclick') && !/^https?:/i.test(href)) return;
+    // Clean up iframe after 2s
+    setTimeout(function () {
+      clearTimeout(timeout);
+      document.body.removeChild(iframe);
+    }, 2000);
+  }
 
-    // Force safe external link behavior
-    if (/^https?:/i.test(href)) {
-      a.setAttribute('rel', 'noopener noreferrer');
-    }
-
-    // Remove other click/touch handlers that might block navigation
-    a.addEventListener('touchend', function (e) {
-      e.stopImmediatePropagation();
+  // Facebook
+  const fbIcon = document.querySelector('.social-icons a[href*="facebook.com"]');
+  if (fbIcon) {
+    fbIcon.addEventListener('click', function (e) {
       e.preventDefault();
-      window.open(this.href, this.target || '_self', this.target === '_blank' ? 'noopener,noreferrer' : '');
-    }, { passive: false });
+      openAppOrFallback('fb://page/100063720556819', this.href);
+    });
+  }
 
-    a.addEventListener('click', function (e) {
-      e.stopImmediatePropagation();
+  // Instagram
+  const igIcon = document.querySelector('.social-icons a[href*="instagram.com"]');
+  if (igIcon) {
+    igIcon.addEventListener('click', function (e) {
       e.preventDefault();
-      window.open(this.href, this.target || '_self', this.target === '_blank' ? 'noopener,noreferrer' : '');
-    }, true);
-  });
+      openAppOrFallback('instagram://user?username=sunnydayseg', this.href);
+    });
+  }
+
+  // WhatsApp
+  const waIcon = document.querySelector('.social-icons a[href*="wa.me"], .social-icons a[href*="whatsapp.com"]');
+  if (waIcon) {
+    waIcon.addEventListener('click', function (e) {
+      e.preventDefault();
+      openAppOrFallback('whatsapp://send?phone=201016732555', this.href);
+    });
+  }
+
+  // Location (Google Maps)
+  const locIcon = document.querySelector('.social-icons a[onclick*="showLocation"]');
+  if (locIcon) {
+    locIcon.addEventListener('click', function (e) {
+      e.preventDefault();
+      // Coordinates can be added here
+      openAppOrFallback('geo:30.0444,31.2357?q=Sunny+Days', 'https://maps.google.com/?q=Sunny+Days');
+    });
+  }
 });
 </script>
 
