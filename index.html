@@ -1,0 +1,1668 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <title>SD</title>
+    <style>
+/* جعل الصور متجاوبة  */
+img { max-width: 100%; height: auto; }
+
+    <title>SD - تحسين الاستجابة</title>
+  /* الأساسيات  */
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: Arial, sans-serif;
+        background: #f0f0f0;
+        overflow-x: hidden;
+    }
+
+    /* شاشة التحميل  */
+    #preloader {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(15px);
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    /* الفقاعات  */
+    .bubble {
+        position: absolute;
+        bottom: -100px;
+        background: rgba(255, 255, 255, 0.25);
+        border-radius: 50%;
+        animation: rise 6s infinite ease-in;
+        backdrop-filter: blur(10px);
+    }
+
+    @keyframes rise {
+        0% { transform: translateY(0) scale(1); opacity: 1; }
+        100% { transform: translateY(-120vh) scale(1.5); opacity: 0; }
+    }
+
+/* المحتوى */
+.site-content {
+    opacity: 0;
+    transform: translateY(25vw); /* نزول النص بنسبة من عرض الشاشة */
+    padding-top: 20vw; /* نزول نسبي مع حجم الشاشة */
+    padding: 2vw; /* مسافة داخلية متناسبة */
+    text-align: center;
+    margin-top: 2vw; /* نزول النص */
+    font-size: 8vw; /* حجم النص يتناسب مع عرض الشاشة */
+    font-family: 'Bebas Neue', sans-serif; /* خط عصري */
+    color: white;
+    letter-spacing: 1vw; /* مسافة بين الحروف متناسبة */
+    text-shadow: 0 0 1vw rgb(248, 223, 78); /* ظل ناعم متناسب */
+    transition: opacity 1s ease, transform 1s ease;
+}
+@media (max-width: 480px) {
+    .site-content {
+        padding-top: 50vw; /* نزول أكتر على الموبايل */
+        font-size: 10vw; /* حجم أصغر أو أكبر حسب التصميم */
+    }
+}
+    .site-content.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+        /* أنماط الاستجابة الإضافية  */
+        @media (max-width: 400px) {
+            .logo-frame img {
+                width: 100% !important;
+                height: auto !important;
+                max-width: 350px;
+            }
+            
+            .gallery-item {
+                flex: 0 1 calc(50% - 10px) !important;
+            }
+            
+            .gallery-item img {
+                height: 150px !important;
+            }
+            
+            .modal-content, .contact-modal-content {
+                width: 95% !important;
+                padding: 15px !important;
+            }
+        }
+        
+        @media (max-width: 340px) {
+            .social-icons {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .top-bar {
+                padding: 8px 10px !important;
+            }
+            
+            .gallery-item {
+                flex: 0 1 100% !important;
+            }
+        }
+        
+        /* تحسين الأداء للهواتف  */
+        .gallery-item img {
+            transition: transform 0.5s ease;
+        }
+        
+        /* منع تأثيرات الhover على الأجهزة التي لا تدعمها  */
+        @media (hover: none) {
+            .logo-frame:hover,
+            .content-box:hover,
+            .about-section:hover,
+            .image-gallery:hover,
+            .gallery-item:hover {
+                transform: none !important;
+            }
+            
+            .start-button:hover,
+            .top-bar .start-button:hover,
+            .social-icon:hover {
+                transform: none !important;
+                background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%) !important;
+            }
+        }
+        /* استيراد خط عربي من جوجل فونتس  */
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap');
+        
+        /* إعادة تعيين الهوامش والحشوات الافتراضية  */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* تنسيق عام للصفحة مع خلفية متدرجة  */
+        body {
+            font-family: 'Tajawal', Arial, sans-serif;
+            min-height: 100svh;
+            overflow-x: hidden;
+            position: relative;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        /* خلفية الصفحة الرئيسية مع صورة مشوشة وتغطية شبه شفافة  */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2073&q=80');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: blur(2px);
+            z-index: -2;
+        }
+        
+        /* طبقة شبه شفافة فوق الخلفية لتخفيف الإضاءة  */
+        .background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 1;
+        }
+        
+        /* البار العلوي الجديد  */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* أيقونات وسائل التواصل الاجتماعي في البار العلوي  */
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        /* زر ابدأ رحلتك في البار العلوي  */
+        .top-bar .start-button {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            color: #333;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-family: inherit;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* تأثير لمعان عند المرور على زر البدء في البار  */
+        .top-bar .start-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        /* تأثيرات عند المرور على زر البدء في البار  */
+        .top-bar .start-button:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
+            background: linear-gradient(135deg, #ffed4e 0%, #ffd700 100%);
+        }
+        
+        .top-bar .start-button:hover::before {
+            left: 100%;
+        }
+        
+        /* تصميم كل أيقونة اجتماعية  */
+        .social-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* تأثير عند المرور على الأيقونات  */
+        .social-icon:hover {
+            transform: scale(1.2);
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* تنسيق أيقونات SVG داخل الأزرار  */
+        .social-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+        
+        /* نافذة عرض الموقع - مخفية بشكل افتراضي  */
+        .location-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* محتوى النافذة المنبثقة  */
+        .modal-content {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: modalFadeIn 0.3s ease-out;
+        }
+        
+        /* عنوان النافذة المنبثقة  */
+        .modal-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        /* عنوان الشركة داخل النافذة المنبثقة  */
+        .modal-address {
+            font-size: 1.1rem;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            border-right: 4px solid #ffd700;
+        }
+        
+        /* زر إغلاق النافذة المنبثقة  */
+        .modal-close {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        /* تأثير عند المرور على زر الإغلاق  */
+        .modal-close:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        /* رسوم متحركة لظهور النافذة المنبثقة  */
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* الحاوية الرئيسية للمحتوى  */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100svh;
+            padding: 20px 20px 20px 20px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* إطار الشعار  */
+        .logo-frame {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        /* تأثير عند المرور على إطار الشعار  */
+        .logo-frame:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* تصميم الشعار  */
+ .logo-frame img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+/* في الكمبيوتر  */
+.logo-frame img {
+    width: 800px;
+    height: auto;
+}
+
+/* في الشاشات الصغيرة (الموبايل)  */
+@media (max-width: 768px) {
+    .logo-frame img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+        
+        /* تأثير عند المرور على الشعار  */
+        .logo-frame:hover img {
+            transform: rotateZ('angle');
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 1.4);
+        }
+        
+        /* صندوق المحتوى الرئيسي  */
+        .content-box {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 40px 50px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease-out 0.2s both;
+            max-width: 500px;
+            margin-bottom: 30px;
+        }
+        
+        /* تأثير عند المرور على صندوق المحتوى  */
+        .content-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* النص الرئيسي في الصفحة  */
+        .main-text {
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: white;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            line-height: 1.4;
+        }
+        
+        /* زر بدء الرحلة  */
+        .start-button {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            color: #333;
+            border: none;
+            padding: 15px 35px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-family: inherit;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* تأثير لمعان عند المرور على الزر  */
+        .start-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        /* تأثيرات عند المرور على زر البدء  */
+        .start-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.6);
+            background: linear-gradient(135deg, #ffed4e 0%, #ffd700 100%);
+        }
+        
+        .start-button:hover::before {
+            left: 100%;
+        }
+        
+        .start-button:active {
+            transform: translateY(-1px) scale(1.02);
+        }
+        
+        /* قسم عن الشركة  */
+        .about-section {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 30px 40px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease-out 0.4s both;
+            max-width: 700px;
+            margin: 0 20px 60px 20px;
+        }
+        
+        /* تأثير عند المرور على قسم عن الشركة  */
+        .about-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* عنوان قسم عن الشركة  */
+        .about-title {
+            font-size: 3.6rem;
+            font-weight: 600;
+            color: #201c01;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* نص قسم عن الشركة  */
+        .about-text {
+            font-size: 1.5rem;
+            color: white;
+            line-height: 1.8;
+            text-align: justify;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* رسوم متحركة للعناصر تظهر من الأسفل  */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* جسيمات عائمة للتأثير البصري  */
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        /* تحديد مواقع وأحجام وتأخيرات الجسيمات العائمة  */
+        .particle:nth-child(1) { width: 10px; height: 10px; top: 20%; left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { width: 15px; height: 15px; top: 60%; left: 85%; animation-delay: 1s; }
+        .particle:nth-child(3) { width: 8px; height: 8px; top: 80%; left: 20%; animation-delay: 2s; }
+        .particle:nth-child(4) { width: 12px; height: 12px; top: 40%; left: 90%; animation-delay: 3s; }
+        .particle:nth-child(5) { width: 6px; height: 6px; top: 70%; left: 60%; animation-delay: 4s; }
+        
+        /* رسوم متحركة للجسيمات العائمة  */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+        
+        /* تصميم متجاوب للشاشات المتوسطة (أجهزة لوحية)  */
+        @media (max-width: 768px) {
+            .top-bar {
+                padding: 10px 20px;
+            }
+            
+            .top-bar .start-button {
+                padding: 10px 20px;
+                font-size: 1rem;
+            }
+            
+            .content-box {
+                padding: 30px 25px;
+                margin: 0 10px 20px 10px;
+            }
+            
+            .main-text {
+                font-size: 1.4rem;
+                margin-bottom: 25px;
+            }
+            
+            .start-button {
+                padding: 12px 28px;
+                font-size: 1.1rem;
+            }
+            
+            .logo-frame img {
+                width: 500px;
+                height: 250px;
+            }
+            
+            .logo-frame {
+                padding: 25px;
+            }
+            
+            .social-icon {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .social-icon svg {
+                width: 18px;
+                height: 18px;
+            }
+            
+            .about-section {
+                padding: 25px 30px;
+            }
+            
+            .about-title {
+                font-size: 1.4rem;
+            }
+            
+            .about-text {
+                font-size: 1rem;
+            }
+            
+            .modal-content {
+                padding: 20px;
+            }
+            
+            .modal-title {
+                font-size: 1.3rem;
+            }
+            
+            .modal-address {
+                font-size: 1rem;
+            }
+        }
+        
+        /* تصميم متجاوب للشاشات الصغيرة (هواتف)  */
+        @media (max-width: 480px) {
+            .top-bar {
+                padding: 8px 15px;
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .top-bar .start-button {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+            
+            .social-icons {
+                gap: 10px;
+            }
+            
+            .social-icon {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .social-icon svg {
+                width: 16px;
+                height: 16px;
+            }
+            
+            .main-text {
+                font-size: 1.2rem;
+            }
+            
+            .start-button {
+                padding: 10px 25px;
+                font-size: 1rem;
+            }
+            
+            .content-box {
+                padding: 25px 20px;
+            }
+            
+            .about-section {
+                padding: 20px 25px;
+            }
+            
+            .about-title {
+                font-size: 1.2rem;
+                margin-bottom: 15px;
+            }
+            
+            .about-text {
+                font-size: 0.9rem;
+                line-height: 1.6;
+            }
+            
+            .logo-frame img {
+                width: 400px;
+                height: 200px;
+            }
+            
+            .modal-content {
+                padding: 15px;
+            }
+            
+            .modal-title {
+                font-size: 1.1rem;
+            }
+            
+            .modal-address {
+                font-size: 0.9rem;
+                padding: 10px;
+            }
+        }
+
+        /* ===== معرض الصور - القسم الرئيسي =====  */
+        .image-gallery {
+            /* خلفية شفافة مع تأثير زجاجي  */
+            background: rgba(255, 255, 255, 0.15);
+            /* تأثير ضبابي خلف العنصر  */
+            backdrop-filter: blur(20px);
+            /* حدود شفافة  */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            /* زوايا مدورة  */
+            border-radius: 20px;
+            /* مساحة داخلية  */
+            padding: 40px;
+            /* محاذاة النص للمنتصف  */
+            text-align: center;
+            /* ظل خفيف  */
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            /* انتقال سلس لجميع الخصائص  */
+            transition: all 0.3s ease;
+            /* رسوم متحركة للظهور من الأسفل  */
+            animation: fadeInUp 1s ease-out 0.6s both;
+            /* أقصى عرض  */
+            max-width: 1200px;
+            /* هوامش: أعلى 80px، يمين 20px، أسفل 50px، يسار 20px  */
+            margin: 80px 20px 50px 20px;
+        }
+        
+        /* تأثير عند المرور على معرض الصور  */
+        .image-gallery:hover {
+            /* رفع العنصر 5 بكسل للأعلى  */
+            transform: translateY(-5px);
+            /* ظل أكبر وأعمق عند المرور  */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* عنوان معرض الصور  */
+        .gallery-title {
+            /* حجم الخط  */
+            font-size: 1.8rem;
+            /* سمك الخط  */
+            font-weight: 600;
+            /* لون ذهبي  */
+            color: #ffd700;
+            /* مسافة من الأسفل  */
+            margin-bottom: 30px;
+            /* ظل للنص  */
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* حاوية الصور - تنسيق التخطيط  */
+        .gallery-container {
+            /* عرض مرن  */
+            display: flex;
+            /* السماح بالتفاف العناصر للأسطر التالية  */
+            flex-wrap: wrap;
+            /* مسافة بين الصور  */
+            gap: 20px;
+            /* توسيط العناصر أفقياً  */
+            justify-content: center;
+            /* توسيط العناصر عمودياً  */
+            align-items: center;
+        }
+        
+        /* كل عنصر صورة فردي  */
+        .gallery-item {
+            /* عرض مرن: 16.666% (6 صور في الصف) مع خصم المسافة  */
+            flex: 0 1 calc(16.666% - 17px);
+            /* أقل عرض ممكن  */
+            min-width: 150px;
+            /* انتقال سلس مع منحنى طبيعي  */
+            transform: rotateZ('angle');
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 1.0);
+            /* إخفاء الأجزاء التي تخرج من الإطار  */
+            overflow: hidden;
+            /* زوايا مدورة  */
+            border-radius: 15px;
+            /* موضع نسبي للطبقات  */
+            position: relative;
+        }
+        
+        /* تنسيق الصور داخل العناصر  */
+        .gallery-item img {
+            /* عرض كامل للعنصر  */
+            width: 100%;
+            /* ارتفاع ثابت - مستطيل بالطول  */
+            height: 220px;
+            /* تغطية كاملة مع الحفاظ على النسب  */
+            object-fit: cover;
+            /* زوايا مدورة  */
+            border-radius: 15px;
+            /* ظل خفيف  */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            /* انتقال سلس مع منحنى طبيعي  */
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            /* مؤشر يد عند المرور  */
+            cursor: pointer;
+            /* سطوع أقل قليلاً في الحالة العادية  */
+            filter: brightness(0.9);
+        }
+        
+        /* تأثير عند المرور على عنصر الصورة  */
+        .gallery-item:hover {
+            /* رفع العنصر 10 بكسل للأعلى  */
+            transform: translateY(-10px);
+            /* جعل العنصر يظهر فوق العناصر الأخرى  */
+            z-index: 10;
+        }
+        
+        /* تأثير على الصورة عند المرور على العنصر  */
+        .gallery-item:hover img {
+            /* تكبير الصورة 1.25 مرة  */
+            transform: scale(1.25);
+            /* ظل أكبر وأعمق  */
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            /* زيادة السطوع  */
+            filter: brightness(1.1);
+        }
+        
+        /* طبقة ذهبية شفافة تظهر عند المرور  */
+        .gallery-item::before {
+            /* محتوى فارغ  */
+            content: '';
+            /* موضع مطلق  */
+            position: absolute;
+            /* تغطية كاملة للعنصر  */
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            /* خلفية متدرجة ذهبية بزاوية 45 درجة  */
+            background: linear-gradient(45deg, rgba(255, 215, 0, 0.1), transparent);
+            /* شفافية كاملة في البداية  */
+            opacity: 0;
+            /* انتقال سلس للشفافية  */
+            transition: opacity 0.5s ease;
+            /* زوايا مدورة  */
+            border-radius: 15px;
+            /* طبقة فوق الصورة  */
+            z-index: 1;
+            /* لا تستجيب للنقر  */
+            pointer-events: none;
+        }
+        
+        /* إظهار الطبقة الذهبية عند المرور  */
+        .gallery-item:hover::before {
+            /* شفافية كاملة  */
+            opacity: 1;
+        }
+
+        /* نافذة الرسالة المنبثقة الجديدة  */
+        .contact-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .contact-modal-content {
+            background: white;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            animation: modalFadeIn 0.4s ease-out;
+        }
+        
+        .contact-modal-header {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .contact-modal-title {
+            font-size: 1.5rem;
+            color: #333;
+            font-weight: 700;
+            margin: 0;
+        }
+        
+        .contact-modal-close {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            color: #333;
+            cursor: pointer;
+        }
+        
+        .contact-modal-body {
+            padding: 25px;
+            text-align: right;
+        }
+        
+        .contact-info {
+            margin-bottom: 20px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 12px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            border-right: 4px solid #ffd700;
+        }
+        
+        .contact-item i {
+            margin-left: 10px;
+            color: #667eea;
+            font-size: 1.2rem;
+        }
+        
+        .contact-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .contact-btn {
+            padding: 12px 25px;
+            border-radius: 50px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-btn.call {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .contact-btn.whatsapp {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+        }
+        
+        .contact-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+    
+/* ==============================
+   تحسينات التوافق مع الموبايل
+   ==============================  */
+
+/* شاشات التابلت والموبايل  */
+@media (max-width: 768px) {
+    .logo-frame img {
+        width: 90%;
+        height: auto;
+    }
+    .content-box {
+        padding: 20px;
+        font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    }
+}
+
+/* الشاشات الصغيرة جداً (موبايل صغير)  */
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: clamp(2rem, 10vw, 3rem);
+    }
+    .hero-subtitle {
+        font-size: clamp(0.9rem, 4vw, 1.2rem);
+    }
+    .container {
+        padding: 60px 10px 10px 10px;
+    }
+}
+/* تصميم البار السفلي */
+.bottom-bar {
+    width: 100%;
+    background-color: #333; /* نفس لون البار العلوي */
+    padding: 15px 20px;
+    margin-top: 50px; /* مسافة بسيطة من المحتوى فوقه */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* نص حقوق النشر */
+.copyright-text {
+    color: white;
+    font-size: 14px;
+    text-align: left;
+}
+
+/* زر تغيير اللغة */
+#bottom-lang-btn {
+    background-color: #fff; /* نفس لون زر البار العلوي */
+    color: #333; 
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+#bottom-lang-btn:hover {
+    background-color: #ddd;
+}
+
+/* انيميشن للمربع المميز */
+@keyframes glow {
+    0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.3), 0 0 40px rgba(255, 215, 0, 0.2); }
+    50% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.5), 0 0 60px rgba(255, 215, 0, 0.3); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+}
+
+        </style>
+    </head>
+    <body>
+
+    <div id="preloader"></div>
+    <div class="site-content">
+        <h1>WELCOME</h1>
+
+    </div>
+        <div class="background"></div>
+        
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        
+        <div class="top-bar">
+            <div class="social-icons">
+            <a href="https://www.facebook.com/Sunnydayseg/" target="_blank" class="social-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                    <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"></path>
+                </svg>
+            </a>
+            <a href="https://www.instagram.com/" target="_blank" class="social-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                    <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"></path>
+                </svg>
+            </a>
+
+            <a href="https://wa.me/201016732555" target="_blank" class="social-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                    <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"></path>
+                </svg>
+            </a>
+            <a href="#" class="social-icon" onclick="showLocation(event)">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                    <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 256c-35.3 0-64-28.7-64-64s28.7-64 64-64s64 28.7 64 64s-28.7 64-64 64z"></path>
+                </svg>
+            </a>
+            </div>
+            
+            <button class="start-button" id="top-start-button" onclick="startJourney()">ابدأ رحلتك</button>
+        </div>
+        
+        <div class="location-modal" id="locationModal">
+            <div class="modal-content">
+                <h2 class="modal-title" id="location-modal-title">موقع شركة صني دايز</h2>
+                <p class="modal-address" id="location-modal-address">
+                    العنوان: 📍القاهرة : ٦٢ ش يوسف عباس -شقه ١٠٣ -الدور العاشر منطقه السينما -مدينه نصر اول-القاهره
+                    <br>📍 الجيزة : سان جيوفاني -ش عبدالعزيز ال سعود -المنيل -الجيزه
+                    <br>📍 شرم الشيخ : جنينه سيتي محلات ارقام ٣٠٩١/٣٠٩٢/٣٠٧ <br>
+
+                </p>
+                <button class="modal-close" id="location-modal-close" onclick="closeLocation()">إغلاق</button>
+            </div>
+        </div>
+
+        <div class="contact-modal" id="contactModal">
+            <div class="contact-modal-content">
+                <div class="contact-modal-header">
+                    <button class="contact-modal-close" onclick="closeContactModal()">&times;</button>
+                    <h2 class="contact-modal-title" id="contact-modal-title">تواصل معنا</h2>
+                </div>
+                <div class="contact-modal-body">
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span id="contact-address-cairo">📍القاهرة: ٦٢ ش يوسف عباس - شقه ١٠٣ - الدور العاشر - منطقه السينما - مدينه نصر اول - القاهره</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span id="contact-address-giza">📍الجيزة: سان جيوفاني - ش عبدالعزيز ال سعود - المنيل - الجيزه</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span id="contact-address-sharm">📍شرم الشيخ: جنينه سيتي محلات ارقام ٣٠٩١/٣٠٩٢/٣٠٧</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span id="contact-phone">الهاتف: 4450011+</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span id="contact-email">البريد الإلكتروني: info@sunnydayseg.com</span>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-actions">
+                        <button class="contact-btn call" onclick="makeCall()">
+                            <i class="fas fa-phone"></i> <span id="contact-call-btn">اتصل بنا</span>
+                        </button>
+                        <button class="contact-btn whatsapp" onclick="openWhatsApp()">
+                            <i class="fab fa-whatsapp"></i> <span id="contact-whatsapp-btn">واتساب</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="logo-frame">
+                <img src="https://drive.google.com/uc?export=view&id=1aNIfgEaB6K-1hMMDwl7RABukugcx5tYB" alt="Sunnydays Logo" onerror="this.onerror=null; this.src='https://drive.google.com/thumbnail?id=1aNIfgEaB6K-1hMMDwl7RABukugcx5tYB&sz=w800';" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjI1MCIgdmlld0JveD0iMCAwIDYwMCAyNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI2MDAiIGhlaWdodD0iMjUwIiByeD0iMTUiIGZpbGw9InVybCgjZ3JhZGllbnQpIi8+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWRpZW50IiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+CjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNmZmQ3MDA7c3RvcC1vcGFjaXR5OjEiIC8+CjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2ZmZWQ0ZTtzdG9wLW9wYWNpdHk6MSIgLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8dGV4dCB4PSIzMDAiIHk9IjEzNSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjYwIiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0iIzMzMyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+U0QgTG9nbzwvdGV4dD4KPC9zdmc+Cg==';">
+            </div>
+            
+
+            
+            <!-- إضافة مربع جديد بنفس مقاسات المربع التحته -->
+            <div class="content-box" style="max-width: 700px; padding: 40px 50px; margin: 0 20px 30px 20px; background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.1) 100%); backdrop-filter: blur(25px); border: 2px solid rgba(255, 215, 0, 0.4); border-radius: 25px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.3); position: relative; overflow: hidden; animation: glow 3s ease-in-out infinite, float 4s ease-in-out infinite;">
+                <!-- تأثير الإضاءة المتحركة -->
+                <div style="position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent); animation: shimmer 3s ease-in-out infinite; pointer-events: none;"></div>
+                
+                <!-- النص الرئيسي -->
+                <p class="main-text" id="main-text" style="font-size: 2.2rem; font-weight: 700; color: #030533; margin: 0; text-align: center; text-shadow: 0 2px 15px rgb(253, 253, 253), 0 4px 20px rgba(0, 0, 0, 0.3); letter-spacing: 3px; position: relative; z-index: 2; line-height: 1.4;">مغامرتك وذكرياتك تحت شمس البحر تبدأ معنا</p>
+                
+                <!-- عناصر زخرفية -->
+                <div style="position: absolute; top: 15px; right: 15px; width: 25px; height: 25px; background: linear-gradient(45deg, #ffd700, #ffed4e); border-radius: 50%; opacity: 0.7; animation: float 2s ease-in-out infinite reverse;"></div>
+                <div style="position: absolute; bottom: 15px; left: 15px; width: 20px; height: 20px; background: linear-gradient(45deg, #ffd700, #ffed4e); border-radius: 50%; opacity: 0.5; animation: float 2.5s ease-in-out infinite;"></div>
+                <div style="position: absolute; top: 50%; left: 10px; width: 15px; height: 15px; background: linear-gradient(45deg, #ffd700, #ffed4e); border-radius: 50%; opacity: 0.4; animation: float 3s ease-in-out infinite reverse;"></div>
+                <div style="position: absolute; top: 50%; right: 10px; width: 18px; height: 18px; background: linear-gradient(45deg, #ffd700, #ffed4e); border-radius: 50%; opacity: 0.6; animation: float 2.8s ease-in-out infinite;"></div>
+            </div>
+            
+            <div class="about-section">
+                <h1 class="about-title" id="about-title">عن شركة صني دايز</h1>
+                <h2 class="about-text" id="about-text">
+                    شركة صني دايز هي شركة رائدة في مجال التطوير والتسويق والاستثمار السياحي، تأسست عام 2007.
+                    تتميز الشركة بخبرتها الواسعة في تقديم حلول سياحية متكاملة تناسب مختلف الاحتياجات.
+                    تعمل كوكيل لأكبر القرى السياحية في مصر، مما يتيح لعملائها خيارات متنوعة ومتميزة.
+                    تسعى صني دايز إلى توفير تجارب سياحية فريدة تجمع بين الراحة والفخامة.
+                    برؤيتها الطموحة وخدماتها المبتكرة، أصبحت الشركة علامة بارزة في قطاع السياحة والاستثمار.
+                </h2>
+            </div>
+
+            <!-- إضافة قسم البطاقات الجديد تحت البرواز مباشرة -->
+            <div class="image-gallery" style="margin-top: 50px;">
+                <h2 class="gallery-title" id="gallery-title">استمتع بـ أجازة فريدة تجمع بين الراحة و الفخامة والاستثمار</h2>
+                
+                <!-- حاوية البطاقات الجديدة -->
+                <div class="page" id="cards-container"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <style>
+        /* ===== أنماط البطاقات الجديدة ===== */
+        .page {
+            width: 100%;
+            max-width: 1400px; /* زيادة من 1100 إلى 1400 */
+            margin: 0 auto;
+        }
+        
+        .card {
+            display: flex;
+            gap: 18px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 14px;
+            backdrop-filter: blur(20px);
+            padding: 20px;
+            margin-bottom: 18px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease-out both;
+            min-height: 280px; /* إضافة ارتفاع ثابت للبطاقات */
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .card-image {
+            flex: 0 0 45%; /* زيادة من 42% إلى 45% */
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            min-height: 240px; /* إضافة ارتفاع ثابت للصور */
+        }
+        
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: all 0.5s ease;
+        }
+        
+        .card:hover .card-image img {
+            transform: scale(1.1);
+        }
+        
+        .card-content {
+            flex: 1 1 55%; /* تقليل من 58% إلى 55% */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .title {
+            font-size: 22px; /* زيادة من 20 إلى 22 */
+            font-weight: 700;
+            margin: 0;
+            color: #ffd700;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .desc {
+            margin: 6px 0 0;
+            line-height: 1.6;
+            font-size: 16px; /* زيادة من 15 إلى 16 */
+            color: white;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card.reverse {
+            flex-direction: row-reverse;
+        }
+        
+        /* تأثيرات إضافية للبطاقات */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255, 215, 0, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 14px;
+            pointer-events: none;
+        }
+        
+        .card:hover::before {
+            opacity: 1;
+        }
+        
+        /* تصميم متجاوب للبطاقات */
+        @media (max-width: 800px) {
+            .card {
+                flex-direction: column;
+                padding: 14px;
+                min-height: auto; /* إزالة الارتفاع الثابت في الموبايل */
+            }
+            
+            .card.reverse {
+                flex-direction: column;
+            }
+            
+            .card-image {
+                width: 100%;
+                min-height: 220px;
+            }
+            
+            .title {
+                font-size: 18px;
+            }
+            
+            .desc {
+                font-size: 14px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .card {
+                padding: 12px;
+                margin-bottom: 15px;
+            }
+            
+            .card-image {
+                min-height: 180px;
+            }
+            
+            .title {
+                font-size: 16px;
+            }
+            
+            .desc {
+                font-size: 13px;
+            }
+        }
+    </style>
+
+<div class="bottom-bar">
+    <div class="copyright-text" id="copyright-text">جميع الحقوق محفوظة © 2024 شركة صني دايز.</div>
+    <button id="bottom-lang-btn" onclick="toggleLanguage()">EN / AR</button>
+</div>
+
+    <script>
+        // --- START LANGUAGE SWITCHER CODE ---
+
+        let currentLang = 'ar'; // اللغة الافتراضية هي العربية
+
+        const translations = {
+            ar: {
+                topStartButton: "ابدأ رحلتك",
+                locationModalTitle: "موقع شركة صني دايز",
+                locationModalAddress: `العنوان: 📍القاهرة : ٦٢ ش يوسف عباس -شقه ١٠٣ -الدور العاشر منطقه السينما -مدينه نصر اول-القاهره
+                <br>📍 الجيزة : سان جيوفاني -ش عبدالعزيز ال سعود -المنيل -الجيزه
+                <br>📍 شرم الشيخ : جنينه سيتي محلات ارقام ٣٠٩١/٣٠٩٢/٣٠٧ <br>
+                الهاتف: 4450011+<br>
+                البريد الإلكتروني: info@sunnydayseg.com`,
+                locationModalClose: "إغلاق",
+                contactModalTitle: "تواصل معنا",
+                contactAddressCairo: "📍القاهرة: ٦٢ ش يوسف عباس - شقه ١٠٣ - الدور العاشر - منطقه السينما - مدينه نصر اول - القاهره",
+                contactAddressGiza: "📍الجيزة: سان جيوفاني - ش عبدالعزيز ال سعود - المنيل - الجيزه",
+                contactAddressSharm: "📍شرم الشيخ: جنينه سيتي محلات ارقام ٣٠٩١/٣٠٩٢/٣٠٧",
+                contactPhone: "الهاتف: 4450011+",
+                contactEmail: "البريد الإلكتروني: info@sunnydayseg.com",
+                contactCallBtn: "اتصل بنا",
+                contactWhatsappBtn: "واتساب",
+                mainText: "مغامرتك وذكرياتك تحت شمس البحر تبدأ معنا",
+                aboutTitle: "عن شركة صني دايز",
+                aboutText: `شركة صني دايز هي شركة رائدة في مجال التطوير والتسويق والاستثمار السياحي، تأسست عام 2007.
+                تتميز الشركة بخبرتها الواسعة في تقديم حلول سياحية متكاملة تناسب مختلف الاحتياجات.
+                تعمل كوكيل لأكبر القرى السياحية في مصر، مما يتيح لعملائها خيارات متنوعة ومتميزة.
+                تسعى صني دايز إلى توفير تجارب سياحية فريدة تجمع بين الراحة والفخامة.
+                برؤيتها الطموحة وخدماتها المبتكرة، أصبحت الشركة علامة بارزة في قطاع السياحة والاستثمار.`,
+                galleryTitle: "استمتع بـ أجازة فريدة تجمع بين الراحة و الفخامة والاستثمار",
+                copyrightText: "جميع الحقوق محفوظة © 2024 شركة صني دايز.",
+                // إضافة ترجمات للبطاقات الجديدة
+                cardTitles: [
+                    "الساحل الشمالي - متعة المصيف الفاخرة",
+                    "الغردقة - عطلة شاطئية مميزة",
+                    "مرسى علم - غوص في عالم البحار",
+                    "دهب - مغامرات الصحراء والبحر",
+                    "شرم الشيخ - هدوء الطبيعة الخلابة",
+                    "طابا - جمال سيناء الساحر"
+                ],
+                cardDescriptions: [
+                    "استمتع برحلات بحرية فريدة في شرم الشيخ مع أفضل العروض السياحية والأنشطة المائية المثيرة.",
+                    "عطلة شاطئية مميزة في الغردقة مع إطلالات بحرية خلابة وخدمات فاخرة تليق بك.",
+                    "اكتشف عالم البحار الساحر في مرسى علم مع رحلات الغوص المميزة والمناظر الطبيعية الخلابة.",
+                    "مغامرات مثيرة في دهب تجمع بين جمال الصحراء وهدوء البحر مع أنشطة متنوعة للجميع.",
+                    "استرخاء تام في شرم الشيخ مع هدوء الطبيعة الخلابة والمناظر الجبلية الساحرة.",
+                    "اكتشف جمال سيناء في طابا مع أفضل العروض السياحية والخدمات المميزة."
+                ]
+            },
+            en: {
+                topStartButton: "Start Your Journey",
+                locationModalTitle: "Sunny Days Company Location",
+                locationModalAddress: `Address: 📍Cairo: 62 Youssef Abbas St. - Apt 103 - 10th floor - Cinema area - Nasr City 1 - Cairo
+                <br>📍Giza: San Giovanni - Abdel Aziz Al Saud St. - Manial - Giza
+                <br>📍Sharm El Sheikh: Genena City, shops no. 3091/3092/307 <br>
+                Phone: +4450011<br>
+                Email: info@sunnydayseg.com`,
+                locationModalClose: "Close",
+                contactModalTitle: "Contact Us",
+                contactAddressCairo: "📍Cairo: 62 Youssef Abbas St. - Apt 103 - 10th floor - Cinema area - Nasr City 1 - Cairo",
+                contactAddressGiza: "📍Giza: San Giovanni - Abdel Aziz Al Saud St. - Manial - Giza",
+                contactAddressSharm: "📍Sharm El Sheikh: Genena City, shops no. 3091/3092/307",
+                contactPhone: "Phone: +4450011",
+                contactEmail: "Email: info@sunnydayseg.com",
+                contactCallBtn: "Call Us",
+                contactWhatsappBtn: "WhatsApp",
+                mainText: "Your adventure and memories under the sea sun begin with us",
+                aboutTitle: "About Sunny Days Company",
+                aboutText: `Sunny Days is a leading company in tourism development, marketing, and investment, established in 2007.
+                The company is distinguished by its extensive experience in providing integrated tourism solutions to suit various needs.
+                It acts as an agent for the largest tourist villages in Egypt, offering its clients diverse and distinguished options.
+                Sunny Days aims to provide unique tourism experiences that combine comfort and luxury.
+                With its ambitious vision and innovative services, the company has become a prominent mark in the tourism and investment sector.`,
+                galleryTitle: "Enjoy a unique vacation that combines comfort, luxury, and investment",
+                copyrightText: "All rights reserved © 2024 Sunny Days Company.",
+                // إضافة ترجمات للبطاقات الجديدة باللغة الإنجليزية
+                cardTitles: [
+                    "Sharm El Sheikh - Unique Sea Journey",
+                    "Hurghada - Distinguished Beach Holiday",
+                    "Marsa Alam - Diving in Sea World",
+                    "Dahab - Desert and Sea Adventures",
+                    "Nuweiba - Serene Natural Beauty",
+                    "Taba - Sinai's Enchanting Beauty"
+                ],
+                cardDescriptions: [
+                    "Enjoy unique sea journeys in Sharm El Sheikh with the best tourist offers and exciting water activities.",
+                    "A distinguished beach holiday in Hurghada with stunning sea views and luxury services that suit you.",
+                    "Discover the enchanting sea world in Marsa Alam with distinguished diving trips and stunning natural landscapes.",
+                    "Exciting adventures in Dahab combining desert beauty and sea tranquility with diverse activities for everyone.",
+                    "Complete relaxation in Nuweiba with serene natural beauty and stunning mountain views.",
+                    "Discover Sinai's beauty in Taba with the best tourist offers and distinguished services."
+                ]
+            }
+        };
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            
+            document.documentElement.lang = currentLang;
+            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+
+            // تغيير النصوص بناءً على اللغة المحددة
+            document.getElementById('top-start-button').innerHTML = translations[currentLang].topStartButton;
+            document.getElementById('location-modal-title').innerHTML = translations[currentLang].locationModalTitle;
+            document.getElementById('location-modal-address').innerHTML = translations[currentLang].locationModalAddress;
+            document.getElementById('location-modal-close').innerHTML = translations[currentLang].locationModalClose;
+            document.getElementById('contact-modal-title').innerHTML = translations[currentLang].contactModalTitle;
+            document.getElementById('contact-address-cairo').innerHTML = translations[currentLang].contactAddressCairo;
+            document.getElementById('contact-address-giza').innerHTML = translations[currentLang].contactAddressGiza;
+            document.getElementById('contact-address-sharm').innerHTML = translations[currentLang].contactAddressSharm;
+            document.getElementById('contact-phone').innerHTML = translations[currentLang].contactPhone;
+            document.getElementById('contact-email').innerHTML = translations[currentLang].contactEmail;
+            document.getElementById('contact-call-btn').innerHTML = translations[currentLang].contactCallBtn;
+            document.getElementById('contact-whatsapp-btn').innerHTML = translations[currentLang].contactWhatsappBtn;
+            document.getElementById('main-text').innerHTML = translations[currentLang].mainText;
+            document.getElementById('about-title').innerHTML = translations[currentLang].aboutTitle;
+            document.getElementById('about-text').innerHTML = translations[currentLang].aboutText;
+            document.getElementById('gallery-title').innerHTML = translations[currentLang].galleryTitle;
+            document.getElementById('copyright-text').innerHTML = translations[currentLang].copyrightText;
+            
+            // تحديث نصوص البطاقات
+            updateCardsLanguage();
+            
+            // تعديل تنسيق الـ address modal ليناسب اللغة الانجليزية
+             const modalAddress = document.querySelector('.modal-address');
+             const contactItems = document.querySelectorAll('.contact-item');
+            if (currentLang === 'en') {
+                modalAddress.style.borderRight = 'none';
+                modalAddress.style.borderLeft = '4px solid #ffd700';
+                contactItems.forEach(item => {
+                    item.style.borderRight = 'none';
+                    item.style.borderLeft = '4px solid #ffd700';
+                    item.querySelector('i').style.marginRight = '10px';
+                    item.querySelector('i').style.marginLeft = '0';
+                });
+            } else {
+                modalAddress.style.borderLeft = 'none';
+                modalAddress.style.borderRight = '4px solid #ffd700';
+                 contactItems.forEach(item => {
+                    item.style.borderLeft = 'none';
+                    item.style.borderRight = '4px solid #ffd700';
+                    item.querySelector('i').style.marginLeft = '10px';
+                    item.querySelector('i').style.marginRight = '0';
+                });
+            }
+        }
+
+        // وظيفة تحديث لغة البطاقات
+        function updateCardsLanguage() {
+            const cardTitles = document.querySelectorAll('.title');
+            const cardDescs = document.querySelectorAll('.desc');
+            
+            cardTitles.forEach((title, index) => {
+                if (translations[currentLang].cardTitles[index]) {
+                    title.innerHTML = translations[currentLang].cardTitles[index];
+                }
+            });
+            
+            cardDescs.forEach((desc, index) => {
+                if (translations[currentLang].cardDescriptions[index]) {
+                    desc.innerHTML = translations[currentLang].cardDescriptions[index];
+                }
+            });
+        }
+
+        // --- END LANGUAGE SWITCHER CODE ---
+
+        // وظيفة إنشاء البطاقات
+        function createCards() {
+            const container = document.getElementById("cards-container");
+            const totalImages = 6;
+
+            for (let i = 1; i <= totalImages; i++) {
+                const imgName = String(i).padStart(2, '0') + '.jpg';
+                const reverseClass = i % 2 === 0 ? 'card reverse' : 'card';
+                const cardIndex = i - 1;
+
+                const cardHTML = `
+                    <section class="${reverseClass}">
+                        <div class="card-content">
+                            <h1 class="title">${translations[currentLang].cardTitles[cardIndex] || `عنوان الكارد ${i}`}</h1>
+                            <p class="desc">${translations[currentLang].cardDescriptions[cardIndex] || `وصف مختصر للكارد رقم ${i}.`}</p>
+                        </div>
+                        <div class="card-image">
+                            <img src="${imgName}" alt="صورة ${i}" onerror="this.src='https://via.placeholder.com/400x250/ffd700/333?text=صورة+${i}'">
+                        </div>
+                    </section>
+                `;
+
+                container.innerHTML += cardHTML;
+            }
+        }
+
+        // إنشاء البطاقات عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            createCards();
+        });
+
+        // ... existing code ...
+
+        // وظيفة بدء الرحلة - تنفذ عند الضغط على الزر
+        function startJourney() {
+            // إضافة تأثير نقر على الزر
+            const button = document.querySelector('.start-button');
+            button.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                button.style.transform = '';
+                // عرض نافذة الرسالة المنبثقة
+                document.getElementById('contactModal').style.display = 'flex';
+            }, 100);
+        }
+        
+        // إغلاق نافذة الرسالة المنبثقة
+        function closeContactModal() {
+            document.getElementById('contactModal').style.display = 'none';
+        }
+        
+        // وظائف النافذة المنبثقة للموقع
+        function showLocation(event) {
+            event.preventDefault();
+            document.getElementById('locationModal').style.display = 'flex';
+        }
+        
+        function closeLocation() {
+            document.getElementById('locationModal').style.display = 'none';
+        }
+        
+        // وظائف الاتصال
+        function makeCall() {
+            window.location.href = 'tel:+201016732555';
+        }
+        
+        function openWhatsApp() {
+            window.open('https://wa.me/201016732555', '_blank');
+        }
+        
+        // إغلاق النوافذ المنبثقة عند النقر خارج المحتوى
+        window.onclick = function(event) {
+            const modal = document.getElementById('locationModal');
+            if (event.target == modal) {
+                closeLocation();
+            }
+            
+            const contactModal = document.getElementById('contactModal');
+            if (event.target == contactModal) {
+                closeContactModal();
+            }
+        }
+        
+        // إضافة تأثيرات بصرية عند حركة الماوس
+        document.addEventListener('mousemove', (e) => {
+            if (Math.random() > 0.95) {
+                createSparkle(e.clientX, e.clientY);
+            }
+        });
+        
+        // وظيفة إنشاء تأثير البريق
+        function createSparkle(x, y) {
+            const sparkle = document.createElement('div');
+            sparkle.style.position = 'fixed';
+            sparkle.style.left = x + 'px';
+            sparkle.style.top = y + 'px';
+            sparkle.style.width = '6px';
+            sparkle.style.height = '6px';
+            sparkle.style.background = 'rgba(255, 215, 0, 0.8)';
+            sparkle.style.borderRadius = '50%';
+            sparkle.style.pointerEvents = 'none';
+            sparkle.style.zIndex = '9999';
+            sparkle.style.animation = 'sparkleAnimation 1s ease-out forwards';
+            
+            document.body.appendChild(sparkle);
+            
+            setTimeout(() => {
+                sparkle.remove();
+            }, 1000);
+        }
+        
+        // إضافة رسوم متحركة لتأثير البريق
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes sparkleAnimation {
+                0% {
+                    opacity: 1;
+                    transform: scale(0) rotate(0deg);
+                }
+                50% {
+                    opacity: 1;
+                    transform: scale(1) rotate(180deg);
+                }
+                100% {
+                    opacity: 0;
+                    transform: scale(0) rotate(360deg);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+    // إنشاء الفقاعات
+    function createBubbles() {
+        const preloader = document.getElementById("preloader");
+        for (let i = 0; i < 25; i++) {
+            let bubble = document.createElement("div");
+            let size = Math.random() * 40 + 20;
+            bubble.classList.add("bubble");
+            bubble.style.width = `${size}px`;
+            bubble.style.height = `${size}px`;
+            bubble.style.left = `${Math.random() * 100}%`;
+            bubble.style.animationDuration = `${Math.random() * 3 + 3}s`;
+            bubble.style.animationDelay = `${Math.random() * 2}s`;
+            preloader.appendChild(bubble);
+        }
+    }
+
+    createBubbles();
+
+    // إخفاء شاشة التحميل بانسيابية
+    setTimeout(() => {
+        let preloader = document.getElementById("preloader");
+        preloader.style.transform = "translateY(-100%)";
+        preloader.style.opacity = "0";
+        preloader.style.transition = "transform 1s ease, opacity 1s ease";
+
+        setTimeout(() => {
+            preloader.style.display = "none";
+            document.querySelector(".site-content").classList.add("show");
+        }, 1000);
+    }, 3000);
+
+
+    </script>
+
+    </body>
+</html>
