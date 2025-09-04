@@ -508,7 +508,7 @@ img { max-width: 100%; height: auto; }
         /* تأثير عند المرور على قسم عن الشركة  */
         .about-section:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 5.15);
         }
         
         /* عنوان قسم عن الشركة  */
@@ -1101,7 +1101,7 @@ img { max-width: 100%; height: auto; }
         <div class="contact-modal" id="contactModal">
             <div class="contact-modal-content">
                 <div class="contact-modal-header">
-                    <button class="contact-modal-close" onclick="closeContactModal()">&times;</button>
+                    <button class="contact-modal-close" onclick="closeContactModal()">×</button>
                     <h2 class="contact-modal-title" id="contact-modal-title">تواصل معنا</h2>
                 </div>
                 <div class="contact-modal-body">
@@ -1147,15 +1147,11 @@ img { max-width: 100%; height: auto; }
             
 
             
-            <!-- إضافة مربع جديد بنفس مقاسات المربع التحته -->
             <div class="content-box" style="max-width: 700px; padding: 40px 50px; margin: 0 20px 30px 20px; background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.1) 100%); backdrop-filter: blur(25px); border: 2px solid rgba(255, 215, 0, 0.4); border-radius: 25px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.3); position: relative; overflow: hidden; animation: glow 3s ease-in-out infinite, float 4s ease-in-out infinite;">
-                <!-- تأثير الإضاءة المتحركة -->
                 <div style="position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent); animation: shimmer 3s ease-in-out infinite; pointer-events: none;"></div>
                 
-                <!-- النص الرئيسي -->
                 <p class="main-text" id="main-text" style="font-size: 2.2rem; font-weight: 700; color: #030533; margin: 0; text-align: center; text-shadow: 0 2px 15px rgb(253, 253, 253), 0 4px 20px rgba(0, 0, 0, 0.3); letter-spacing: 3px; position: relative; z-index: 2; line-height: 1.4;">مغامرتك وذكرياتك تحت شمس البحر تبدأ معنا</p>
                 
-                <!-- عناصر زخرفية -->
                 <div style="position: absolute; top: 15px; right: 15px; width: 25px; height: 25px; background: linear-gradient(45deg, #ffd700, #ffed4e); border-radius: 50%; opacity: 0.7; animation: float 2s ease-in-out infinite reverse;"></div>
                 <div style="position: absolute; bottom: 15px; left: 15px; width: 20px; height: 20px; background: linear-gradient(45deg, #ffd700, #ffed4e); border-radius: 50%; opacity: 0.5; animation: float 2.5s ease-in-out infinite;"></div>
                 <div style="position: absolute; top: 50%; left: 10px; width: 15px; height: 15px; background: linear-gradient(45deg, #ffd700, #ffed4e); border-radius: 50%; opacity: 0.4; animation: float 3s ease-in-out infinite reverse;"></div>
@@ -1173,12 +1169,87 @@ img { max-width: 100%; height: auto; }
                 </h2>
             </div>
 
-            <!-- إضافة قسم البطاقات الجديد تحت البرواز مباشرة -->
             <div class="image-gallery" style="margin-top: 50px;">
                 <h2 class="gallery-title" id="gallery-title">استمتع بـ أجازة فريدة تجمع بين الراحة و الفخامة والاستثمار</h2>
                 
-                <!-- حاوية البطاقات الجديدة -->
-                <div class="page" id="cards-container"></div>
+                <div class="page" id="cards-container">
+                    <section class="card">
+                        <div class="card-image">
+                            <img src="01.jpg" alt="الساحل الشمالي">
+                        </div>
+                        <div class="card-content">
+                            <h1 class="title" id="card-title-0">الساحل الشمالي</h1>
+                            <h2 class="desc" id="card-desc-0">جنة البحر الأبيض بمياهه الفيروزية ورماله البيضاء الناعمة، اجمل الحفلات والسهرات التي لا تنسي .
+استمتع بأجواء فاخرة وأنشطة ترفيهية تناسب كل الأذواق من شروق الشمس لغروبها</h2>
+                        </div>
+                    </section>
+                
+                    <section class="card reverse">
+                        <div class="card-image">
+                            <img src="02.jpg" alt="الغردقة">
+                        </div>
+                        <div class="card-content">
+                            <h1 class="title" id="card-title-1">الغردقة</h1>
+                            <p class="desc" id="card-desc-1"> عروس البحر الأحمر بمياهها الكريستالية وشعابها المرجانية الساحرة، الوجهة المثالية لعشاق الغوص والاسترخاء.
+استمتع بشمس دافئة على مدار العام وتجربة ترفيهية لا تُنسى على أجمل الشواطئ </p>
+                        </div>
+                    </section>
+                
+                    <section class="card">
+                        <div class="card-image">
+                            <img src="03.jpg" alt="مرسى علم">
+                        </div>
+                        <div class="card-content">
+                            <h1 class="title" id="card-title-2"> مرسى علم </h1>
+                            <p class="desc" id="card-desc-2">  لؤلؤة البحر الأحمر التي تجمع بين الصفاء الطبيعي والمغامرة، بشواطئ بكر وشعاب مرجانية تأسر الأنظار.
+وجهتك المثالية للغوص، الاسترخاء، واكتشاف عالم بحري لا مثيل له </p>
+                        </div>
+                    </section>
+                
+                    <section class="card reverse">
+                        <div class="card-image">
+                            <img src="04.jpg" alt="دهب">
+                        </div>
+                        <div class="card-content">
+                            <h1 class="title" id="card-title-3">دهب</h1>
+                            <p class="desc" id="card-desc-3">مدينة السحر والهدوء حيث تلتقي الجبال بالبحر في لوحة طبيعية خلابة.
+وجهتك المثالية للغوص، الاسترخاء، والاستمتاع بغروب شمس لا يُنسى</p>
+                        </div>
+                    </section>
+                
+                    <section class="card">
+                        <div class="card-image">
+                            <img src="05.jpg" alt="شرم الشيخ">
+                        </div>
+                        <div class="card-content">
+                            <h1 class="title" id="card-title-4">شرم الشيخ</h1>
+                            <p class="desc" id="card-desc-4">عاصمة السياحة في البحر الأحمر، حيث الفخامة والمغامرة في مكان واحد.
+استمتع بشواطئ مذهلة، حياة ليلية نابضة، وأنشطة بحرية لا تنتهي</p>
+                        </div>
+                    </section>
+                
+                    <section class="card reverse">
+                        <div class="card-image">
+                            <img src="06.jpg" alt="الاقصر ">
+                        </div>
+                        <div class="card-content">
+                            <h1 class="title" id="card-title-5">الاقصر</h1>
+                            <p class="desc" id="card-desc-5">متحف مفتوح تحت سماء صافية، حيث يروي الحجر قصة الفراعنة.
+تعال واكتشف سحر النيل ومعابد خالدة تنبض بالتاريخ والجمال.</p>
+                        </div>
+                    </section>
+                
+                    <section class="card">
+                        <div class="card-image">
+                            <img src="07.jpg" alt=" أسوان">
+                        </div>
+                        <div class="card-content">
+                            <h1 class="title" id="card-title-6">أسوان</h1>
+                            <p class="desc" id="card-desc-6">أرض النيل السحري وجمال الطبيعة الدافئة.
+هنا تلاقي هدوء يروي الروح وسحر يخطف القلوب.</p>
+                        </div>
+                    </section>
+                </div>
             </div>
 
         </div>
@@ -1243,19 +1314,19 @@ img { max-width: 100%; height: auto; }
         }
         
         .title {
-            font-size: 22px; /* زيادة من 20 إلى 22 */
+            font-size: 52px; /* زيادة من 20 إلى 22 */
             font-weight: 700;
             margin: 0;
-            color: #ffd700;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            color: #02083f;
+            text-shadow: 0 2px 8px rgb(163, 172, 4);
         }
         
         .desc {
             margin: 6px 0 0;
             line-height: 1.6;
-            font-size: 16px; /* زيادة من 15 إلى 16 */
+            font-size: 36px; /* زيادة من 15 إلى 16 */
             color: white;
-            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 1px 4px rgba(3, 10, 111, 0.996);
         }
         
         .card.reverse {
@@ -1270,7 +1341,7 @@ img { max-width: 100%; height: auto; }
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(45deg, rgba(255, 215, 0, 0.1), transparent);
+            background: linear-gradient(45deg, rgba(244, 220, 85, 0.2), transparent);
             opacity: 0;
             transition: opacity 0.3s ease;
             border-radius: 14px;
@@ -1364,22 +1435,23 @@ img { max-width: 100%; height: auto; }
                 برؤيتها الطموحة وخدماتها المبتكرة، أصبحت الشركة علامة بارزة في قطاع السياحة والاستثمار.`,
                 galleryTitle: "استمتع بـ أجازة فريدة تجمع بين الراحة و الفخامة والاستثمار",
                 copyrightText: "جميع الحقوق محفوظة © 2024 شركة صني دايز.",
-                // إضافة ترجمات للبطاقات الجديدة
                 cardTitles: [
-                    "الساحل الشمالي - متعة المصيف الفاخرة",
-                    "الغردقة - عطلة شاطئية مميزة",
-                    "مرسى علم - غوص في عالم البحار",
-                    "دهب - مغامرات الصحراء والبحر",
-                    "شرم الشيخ - هدوء الطبيعة الخلابة",
-                    "طابا - جمال سيناء الساحر"
+                    "الساحل الشمالي",
+                    "الغردقة",
+                    "مرسى علم",
+                    "دهب",
+                    "شرم الشيخ",
+                    "الأقصر",
+                    "أسوان"
                 ],
                 cardDescriptions: [
-                    "استمتع برحلات بحرية فريدة في شرم الشيخ مع أفضل العروض السياحية والأنشطة المائية المثيرة.",
-                    "عطلة شاطئية مميزة في الغردقة مع إطلالات بحرية خلابة وخدمات فاخرة تليق بك.",
-                    "اكتشف عالم البحار الساحر في مرسى علم مع رحلات الغوص المميزة والمناظر الطبيعية الخلابة.",
-                    "مغامرات مثيرة في دهب تجمع بين جمال الصحراء وهدوء البحر مع أنشطة متنوعة للجميع.",
-                    "استرخاء تام في شرم الشيخ مع هدوء الطبيعة الخلابة والمناظر الجبلية الساحرة.",
-                    "اكتشف جمال سيناء في طابا مع أفضل العروض السياحية والخدمات المميزة."
+                    "جنة البحر الأبيض بمياهه الفيروزية ورماله البيضاء الناعمة، اجمل الحفلات والسهرات التي لا تنسي . استمتع بأجواء فاخرة وأنشطة ترفيهية تناسب كل الأذواق من شروق الشمس لغروبها",
+                    "عروس البحر الأحمر بمياهها الكريستالية وشعابها المرجانية الساحرة، الوجهة المثالية لعشاق الغوص والاسترخاء. استمتع بشمس دافئة على مدار العام وتجربة ترفيهية لا تُنسى على أجمل الشواطئ",
+                    "لؤلؤة البحر الأحمر التي تجمع بين الصفاء الطبيعي والمغامرة، بشواطئ بكر وشعاب مرجانية تأسر الأنظار. وجهتك المثالية للغوص، الاسترخاء، واكتشاف عالم بحري لا مثيل له",
+                    "مدينة السحر والهدوء حيث تلتقي الجبال بالبحر في لوحة طبيعية خلابة. وجهتك المثالية للغوص، الاسترخاء، والاستمتاع بغروب شمس لا يُنسى",
+                    "عاصمة السياحة في البحر الأحمر، حيث الفخامة والمغامرة في مكان واحد. استمتع بشواطئ مذهلة، حياة ليلية نابضة، وأنشطة بحرية لا تنتهي",
+                    "متحف مفتوح تحت سماء صافية، حيث يروي الحجر قصة الفراعنة. تعال واكتشف سحر النيل ومعابد خالدة تنبض بالتاريخ والجمال.",
+                    "أرض النيل السحري وجمال الطبيعة الدافئة. هنا تلاقي هدوء يروي الروح وسحر يخطف القلوب."
                 ]
             },
             en: {
@@ -1399,31 +1471,32 @@ img { max-width: 100%; height: auto; }
                 contactEmail: "Email: info@sunnydayseg.com",
                 contactCallBtn: "Call Us",
                 contactWhatsappBtn: "WhatsApp",
-                mainText: "Your adventure and memories under the sea sun begin with us",
-                aboutTitle: "About Sunny Days Company",
-                aboutText: `Sunny Days is a leading company in tourism development, marketing, and investment, established in 2007.
-                The company is distinguished by its extensive experience in providing integrated tourism solutions to suit various needs.
-                It acts as an agent for the largest tourist villages in Egypt, offering its clients diverse and distinguished options.
-                Sunny Days aims to provide unique tourism experiences that combine comfort and luxury.
-                With its ambitious vision and innovative services, the company has become a prominent mark in the tourism and investment sector.`,
-                galleryTitle: "Enjoy a unique vacation that combines comfort, luxury, and investment",
-                copyrightText: "All rights reserved © 2024 Sunny Days Company.",
-                // إضافة ترجمات للبطاقات الجديدة باللغة الإنجليزية
+                mainText: "Your adventure and memories under the sun and by the sea begin with us.",
+                aboutTitle: "About Sunny Days",
+                aboutText: `Sunny Days, established in 2007, is a leading company in tourism development, marketing, and investment.
+                The company is known for its extensive experience in providing comprehensive tourism solutions to meet various needs.
+                As an agent for the largest tourist resorts in Egypt, it offers clients diverse and exclusive options.
+                Sunny Days is committed to creating unique travel experiences that blend comfort and luxury.
+                With its ambitious vision and innovative services, the company has become a hallmark of excellence in the tourism and investment sector.`,
+                galleryTitle: "Enjoy a unique vacation that combines comfort, luxury, and investment.",
+                copyrightText: "© 2024 Sunny Days Company. All rights reserved.",
                 cardTitles: [
-                    "Sharm El Sheikh - Unique Sea Journey",
-                    "Hurghada - Distinguished Beach Holiday",
-                    "Marsa Alam - Diving in Sea World",
-                    "Dahab - Desert and Sea Adventures",
-                    "Nuweiba - Serene Natural Beauty",
-                    "Taba - Sinai's Enchanting Beauty"
+                    "North Coast",
+                    "Hurghada",
+                    "Marsa Alam",
+                    "Dahab",
+                    "Sharm El Sheikh",
+                    "Luxor",
+                    "Aswan"
                 ],
                 cardDescriptions: [
-                    "Enjoy unique sea journeys in Sharm El Sheikh with the best tourist offers and exciting water activities.",
-                    "A distinguished beach holiday in Hurghada with stunning sea views and luxury services that suit you.",
-                    "Discover the enchanting sea world in Marsa Alam with distinguished diving trips and stunning natural landscapes.",
-                    "Exciting adventures in Dahab combining desert beauty and sea tranquility with diverse activities for everyone.",
-                    "Complete relaxation in Nuweiba with serene natural beauty and stunning mountain views.",
-                    "Discover Sinai's beauty in Taba with the best tourist offers and distinguished services."
+                    "The paradise of the Mediterranean with its turquoise waters and soft white sand, hosting unforgettable parties and nightlife. Enjoy a luxurious atmosphere and recreational activities for all tastes from sunrise to sunset.",
+                    "The gem of the Red Sea, with its crystal-clear waters and enchanting coral reefs, is the perfect destination for diving and relaxation enthusiasts. Enjoy warm sunshine year-round and an unforgettable entertainment experience on the most beautiful beaches.",
+                    "The pearl of the Red Sea, combining natural purity and adventure, with pristine beaches and captivating coral reefs. Your ideal destination for diving, relaxation, and discovering an unparalleled marine world.",
+                    "The city of magic and tranquility, where the mountains meet the sea in a stunning natural landscape. Your perfect destination for diving, relaxation, and enjoying an unforgettable sunset.",
+                    "The tourism capital of the Red Sea, where luxury and adventure meet in one place. Enjoy stunning beaches, vibrant nightlife, and endless water activities.",
+                    "An open-air museum under a clear sky, where the stones tell the story of the Pharaohs. Come and discover the magic of the Nile and timeless temples full of history and beauty.",
+                    "The land of the magical Nile and the beauty of warm nature. Here, you will find a serenity that soothes the soul and a charm that captures the heart."
                 ]
             }
         };
@@ -1497,40 +1570,7 @@ img { max-width: 100%; height: auto; }
                 }
             });
         }
-
-        // --- END LANGUAGE SWITCHER CODE ---
-
-        // وظيفة إنشاء البطاقات
-        function createCards() {
-            const container = document.getElementById("cards-container");
-            const totalImages = 7;
-
-            for (let i = 1; i <= totalImages; i++) {
-                const imgName = String(i).padStart(2, '0') + '.jpg';
-                const reverseClass = i % 2 === 0 ? 'card reverse' : 'card';
-                const cardIndex = i - 1;
-
-                const cardHTML = `
-                    <section class="${reverseClass}">
-                        <div class="card-content">
-                            <h1 class="title">${translations[currentLang].cardTitles[cardIndex] || `عنوان الكارد ${i}`}</h1>
-                            <p class="desc">${translations[currentLang].cardDescriptions[cardIndex] || `وصف مختصر للكارد رقم ${i}.`}</p>
-                        </div>
-                        <div class="card-image">
-                            <img src="${imgName}" alt="صورة ${i}">
-                        </div>
-                    </section>
-                `;
-
-                container.innerHTML += cardHTML;
-            }
-        }
-
-        // إنشاء البطاقات عند تحميل الصفحة
-        document.addEventListener('DOMContentLoaded', function() {
-            createCards();
-        });
-
+        
         // ... existing code ...
 
         // وظيفة بدء الرحلة - تنفذ عند الضغط على الزر
@@ -1715,15 +1755,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // Location (Google Maps)
-  const locIcon = document.querySelector('.social-icons a[onclick*="showLocation"]');
-  if (locIcon) {
-    locIcon.addEventListener('click', function (e) {
-      e.preventDefault();
-      // Coordinates can be added here
-      openAppOrFallback('geo:30.0444,31.2357?q=Sunny+Days', 'https://maps.google.com/?q=Sunny+Days');
-    });
-  }
 });
 </script>
 
